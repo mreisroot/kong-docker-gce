@@ -1,0 +1,9 @@
+---
+plugin: "gcp_compute"
+projects:
+  - "labs-22648"
+auth_kind: "serviceaccount"
+service_account_file: "~/.creds/labs-compute-dns-admin-key.json"
+groups:
+  kong: "'kong-instance' in name"
+...
