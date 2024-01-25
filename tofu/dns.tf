@@ -11,10 +11,10 @@ resource "google_dns_record_set" "kong_instance" {
 # Managed DNS Zone that will be used
 resource "google_dns_managed_zone" "prod" {
   name     = "prod-zone"
-  dns_name = "prod.${random_id.rnd.hex}.com."
+  dns_name = "prod.${random_id.rnd_dns_id.hex}.com."
 }
 
-# A Random ID that will be generated
-resource "random_id" "rnd" {
+# A Random ID that will be generated for the DNS name
+resource "random_id" "rnd_dns_id" {
   byte_length = 4
 }
