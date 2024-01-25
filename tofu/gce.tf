@@ -4,6 +4,7 @@ resource "google_compute_instance" "kong_instance" {
   machine_type = "n1-standard-1"
   tags         = ["ssh"]
 
+  # Instance disk configuration
   boot_disk {
     device_name = "kong-instance-disk"
     initialize_params {
@@ -12,6 +13,7 @@ resource "google_compute_instance" "kong_instance" {
     }
   }
 
+  # Instance networking
   network_interface {
     subnetwork = google_compute_subnetwork.labs_subnet.id
     access_config {
@@ -19,7 +21,13 @@ resource "google_compute_instance" "kong_instance" {
     }
   }
 
+  # SSH key configuration
   metadata = {
     ssh-keys = "${var.ssh-user}:${file("~/.ssh/id_rsa.pub")}"
+  }
+
+  # Provision the instance with Ansible
+  provisioner "local-exec" {
+    command = "ansible-playbook -u ${var.ssh-user} -i ansible/inventory.gcp.yml ansible/playbook.yml"
   }
 }
