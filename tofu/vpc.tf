@@ -13,12 +13,7 @@ resource "google_compute_subnetwork" "labs_subnet" {
   region        = "us-central1"
 }
 
-# Custom Firewall Rule to enable SSH access
-resource "google_compute_firewall" "ssh" {
-  name    = "allow-ssh"
-  network = var.labs-vpc
-  allow {
-    ports    = ["22"]
-    protocol = "tcp"
-  }
+# Static Public IP Address
+resource "google_compute_address" "static" {
+  name = "ipv4-address"
 }
