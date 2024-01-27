@@ -3,6 +3,6 @@
   hosts: "kong"
   become: true
   roles:
-    - role: "git+https://github.com/mreisroot/deploy-docker.git"
+    - "docker"
     - "kong"
 ...
