@@ -28,6 +28,6 @@ resource "google_compute_instance" "kong_instance" {
 
   # Provision the instance with Ansible
   provisioner "local-exec" {
-    command = "ansible-playbook -u ${var.ssh-user} -i ansible/inventory.gcp.yml ansible/playbook.yml"
+    command = "ansible-playbook -u ${var.ssh-user} -i ../ansible/inventory.gcp.yml ../ansible/playbook.yml"
   }
 }
