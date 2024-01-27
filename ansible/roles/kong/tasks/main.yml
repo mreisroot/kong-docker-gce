@@ -1,2 +1,15 @@
 ---
-# tasks file for roles/kong
+- name: "Get Compose file"
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/mreisroot/kong-docker-pgsql/main/compose.yml"
+    dest: "{{ ansible_env.HOME }}"
+
+- name: "Create kong-net network"
+  community.docker.docker_network:
+    name: "kong-net"
+
+- name: "Deploy Kong Container Stack"
+  community.docker.docker_compose:
+    project_src: "{{ ansible_env.HOME }}"
+    state: "present"
+...
