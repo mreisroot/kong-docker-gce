@@ -2,7 +2,7 @@
 resource "google_compute_instance" "kong_instance" {
   name         = "kong-instance"
   machine_type = "n1-standard-1"
-  tags         = ["ssh"]
+  tags         = ["allow-ssh", "allow-web", "allow-kong", "allow-db"]
 
   # Instance disk configuration
   boot_disk {

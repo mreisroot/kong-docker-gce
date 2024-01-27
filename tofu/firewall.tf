@@ -6,7 +6,8 @@ resource "google_compute_firewall" "ssh" {
     ports    = ["22"]
     protocol = "tcp"
   }
-  source_tags = ["ssh"]
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["allow-ssh"]
 }
 
 # Custom Firewall Rule to enable HTTP and HTTPS access
@@ -17,7 +18,8 @@ resource "google_compute_firewall" "web" {
     ports    = ["80", "443"]
     protocol = "tcp"
   }
-  source_tags = ["web"]
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["allow-web"]
 }
 
 # Custom Firewall Rule to open Kong's ports
@@ -28,7 +30,8 @@ resource "google_compute_firewall" "kong" {
     ports    = ["8000", "8001", "8002", "8003", "8004", "8443", "8444", "8445"]
     protocol = "tcp"
   }
-  source_tags = ["kong"]
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["allow-kong"]
 }
 
 # Custom Firewall Rule to open PostgreSQL's port
@@ -39,7 +42,8 @@ resource "google_compute_firewall" "postgres" {
     ports    = ["5432"]
     protocol = "tcp"
   }
-  source_tags = ["db"]
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["allow-db"]
 }
 
 # Custom Firewall Rule to open Konga's port
@@ -50,5 +54,6 @@ resource "google_compute_firewall" "konga" {
     ports    = ["1337"]
     protocol = "tcp"
   }
-  source_tags = ["kong"]
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["allow-kong"]
 }
