@@ -7,6 +7,8 @@ resource "google_compute_firewall" "ssh" {
     protocol = "tcp"
   }
   source_ranges = ["0.0.0.0/0"]
+  priority      = 1000
+  direction     = "INGRESS"
   target_tags   = ["allow-ssh"]
 }
 
@@ -19,6 +21,8 @@ resource "google_compute_firewall" "web" {
     protocol = "tcp"
   }
   source_ranges = ["0.0.0.0/0"]
+  priority      = 1000
+  direction     = "INGRESS"
   target_tags   = ["allow-web"]
 }
 
@@ -31,6 +35,8 @@ resource "google_compute_firewall" "kong" {
     protocol = "tcp"
   }
   source_ranges = ["0.0.0.0/0"]
+  priority      = 1000
+  direction     = "INGRESS"
   target_tags   = ["allow-kong"]
 }
 
@@ -43,6 +49,8 @@ resource "google_compute_firewall" "postgres" {
     protocol = "tcp"
   }
   source_ranges = ["0.0.0.0/0"]
+  priority      = 1000
+  direction     = "INGRESS"
   target_tags   = ["allow-db"]
 }
 
@@ -55,5 +63,7 @@ resource "google_compute_firewall" "konga" {
     protocol = "tcp"
   }
   source_ranges = ["0.0.0.0/0"]
+  priority      = 1000
+  direction     = "INGRESS"
   target_tags   = ["allow-kong"]
 }

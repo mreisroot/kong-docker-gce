@@ -8,7 +8,7 @@ resource "google_compute_network" "labs_vpc" {
 # Labs project Subnet
 resource "google_compute_subnetwork" "labs_subnet" {
   name          = "labs-subnet"
-  network       = google_compute_network.labs_vpc.name
+  network       = google_compute_network.labs_vpc.id
   ip_cidr_range = "10.0.0.0/29"
   region        = "us-central1"
 }

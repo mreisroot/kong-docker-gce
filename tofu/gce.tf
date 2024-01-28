@@ -1,7 +1,7 @@
 # GCE Instance that will host Kong
 resource "google_compute_instance" "kong_instance" {
   name         = "kong-instance"
-  machine_type = "n1-standard-1"
+  machine_type = "f1-micro"
   tags         = ["allow-ssh", "allow-web", "allow-kong", "allow-db"]
 
   # Instance disk configuration
@@ -26,8 +26,40 @@ resource "google_compute_instance" "kong_instance" {
     ssh-keys = "${var.ssh-user}:${file("~/.ssh/id_rsa.pub")}"
   }
 
+  # Install Ansible on the instance
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update",
+      "sudo apt install -y python3 python3-pip",
+      "sudo pip3 install ansible"
+    ]
+
+    connection {
+      host        = google_compute_instance.kong_instance.network_interface.0.access_config.0.nat_ip
+      type        = "ssh"
+      user        = var.ssh-user
+      private_key = file("~/.ssh/id_rsa")
+    }
+  }
+
   # Provision the instance with Ansible
   provisioner "local-exec" {
-    command = "ansible-playbook -u ${var.ssh-user} -i ../ansible/inventory.gcp.yml ../ansible/playbook.yml"
+    command = <<EOF
+    ssh-keyscan -H ${google_compute_address.static.address} >> ~/.ssh/known_hosts
+    ansible-playbook -u ${var.ssh-user} -i ../ansible/inventory.gcp.yml ../ansible/playbook.yml
+    EOF
   }
 }
+
+/*
+# Provision the instance using Ansible without installing Ansible on the instance (WIP)
+resource "null_resource" "ansible_playbook" {
+  depends_on = [google_compute_instance.kong_instance]
+
+  provisioner "local-exec" {
+    command = <<EOF
+    ANSIBLE_HOST_KEY_CHECKING=False
+    ansible-playbook -u ${var.ssh-user} -i ../ansible/inventory.gcp.yml ../ansible/playbook.yml
+    EOF
+  }
+} */
