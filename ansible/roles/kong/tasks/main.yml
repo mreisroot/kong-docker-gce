@@ -4,6 +4,12 @@
     url: "https://raw.githubusercontent.com/mreisroot/kong-docker-pgsql/main/compose.yml"
     dest: "{{ ansible_env.HOME }}"
 
+- name: "Adjust Compose file in order to make community.docker.docker_compose module work properly"
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/compose.yml"
+    state: "absent"
+    regexp: "^attach"
+
 - name: "Create kong-net network"
   community.docker.docker_network:
     name: "kong-net"
