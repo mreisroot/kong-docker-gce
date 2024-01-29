@@ -31,11 +31,11 @@ resource "google_compute_instance" "kong_instance" {
     inline = [
       "sudo apt update",
       "sudo apt install -y python3 python3-pip",
-      "sudo pip3 install ansible"
+      "sudo pip3 install ansible",
     ]
 
     connection {
-      host        = google_compute_instance.kong_instance.network_interface.0.access_config.0.nat_ip
+      host        = google_compute_address.static.address
       type        = "ssh"
       user        = var.ssh-user
       private_key = file("~/.ssh/id_rsa")
