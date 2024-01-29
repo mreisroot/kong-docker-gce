@@ -3,19 +3,12 @@
   ansible.builtin.get_url:
     url: "https://raw.githubusercontent.com/mreisroot/kong-docker-pgsql/main/compose.yml"
     dest: "{{ ansible_env.HOME }}"
-
-- name: "Adjust Compose file in order to make community.docker.docker_compose module work properly"
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_env.HOME }}/compose.yml"
-    state: "absent"
-    regexp: "^attach"
+    mode: '644'
 
 - name: "Create kong-net network"
   community.docker.docker_network:
     name: "kong-net"
 
 - name: "Deploy Kong Container Stack"
-  community.docker.docker_compose:
-    project_src: "{{ ansible_env.HOME }}"
-    state: "present"
+  ansible.builtin.command: "docker compose -f {{ ansible_env.HOME }}/compose.yml up"
 ...
