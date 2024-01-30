@@ -23,7 +23,6 @@ resource "google_compute_firewall" "web" {
   source_ranges = ["0.0.0.0/0"]
   priority      = 1000
   direction     = "INGRESS"
-  target_tags   = ["allow-web"]
 }
 
 # Custom Firewall Rule to open Kong's ports
@@ -37,7 +36,6 @@ resource "google_compute_firewall" "kong" {
   source_ranges = ["0.0.0.0/0"]
   priority      = 1000
   direction     = "INGRESS"
-  target_tags   = ["allow-kong"]
 }
 
 # Custom Firewall Rule to open PostgreSQL's port
@@ -51,7 +49,6 @@ resource "google_compute_firewall" "postgres" {
   source_ranges = ["0.0.0.0/0"]
   priority      = 1000
   direction     = "INGRESS"
-  target_tags   = ["allow-db"]
 }
 
 # Custom Firewall Rule to open Konga's port
@@ -65,5 +62,4 @@ resource "google_compute_firewall" "konga" {
   source_ranges = ["0.0.0.0/0"]
   priority      = 1000
   direction     = "INGRESS"
-  target_tags   = ["allow-kong"]
 }

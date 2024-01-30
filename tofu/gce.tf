@@ -1,8 +1,9 @@
 # GCE Instance that will host Kong
 resource "google_compute_instance" "kong_instance" {
-  name         = "kong-instance"
-  machine_type = "f1-micro"
-  tags         = ["allow-ssh", "allow-web", "allow-kong", "allow-db"]
+  name                      = "kong-instance"
+  machine_type              = "e2-small"
+  tags                      = ["allow-ssh", "allow-web", "allow-kong", "allow-konga", "allow-db", "http-server", "https-server"]
+  allow_stopping_for_update = true
 
   # Instance disk configuration
   boot_disk {
