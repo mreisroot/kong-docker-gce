@@ -29,11 +29,7 @@ resource "google_compute_instance" "kong_instance" {
 
   # Install Ansible on the instance
   provisioner "remote-exec" {
-    inline = [
-      "sudo apt update",
-      "sudo apt install -y python3 python3-pip",
-      "sudo pip3 install ansible",
-    ]
+    inline = ["echo \"SSH Connection is HEALTHY!\""]
 
     connection {
       host        = google_compute_address.static.address
@@ -45,10 +41,13 @@ resource "google_compute_instance" "kong_instance" {
 
   # Provision the instance with Ansible
   provisioner "local-exec" {
-    command = <<EOF
-    ssh-keyscan -H ${google_compute_address.static.address} >> ~/.ssh/known_hosts
+    command     = <<EOF
+    ssh-keyscan -H ${google_compute_address.static.address} >> ~/.ssh/known_hosts 
+    #sed -i "s|your_project_id|\${var.project-id}|g" ../ansible/inventory.gcp.yml
+    #sed -i "s|service_account_key_path|\${var.sa-key-path}|g" ../ansible/inventory.gcp.yml
     ansible-playbook -u ${var.ssh-user} -i ../ansible/inventory.gcp.yml ../ansible/playbook.yml
     EOF
+    interpreter = ["/bin/bash", "-c"]
   }
 }
 

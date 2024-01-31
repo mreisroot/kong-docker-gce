@@ -1,7 +1,7 @@
 provider "google" {
-  credentials = file("~/.creds/labs-compute-dns-admin-key.json")
+  credentials = file("${var.sa-key-path}")
 
-  project = "labs-22648"
-  region  = "us-central1"
-  zone    = "us-central1-a"
+  project = var.project-id
+  region  = var.project-region
+  zone    = var.project-zone
 }
